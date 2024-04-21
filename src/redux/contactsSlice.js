@@ -1,6 +1,7 @@
 /* reducer.js - файл оголошення функцій-редюсерів для оновлення стану */
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { fetchContacts, addContact, deleteContact } from "./contactsOps";
+import { selectNameFilter } from "./filtersSlice";
 
 
 
@@ -61,5 +62,13 @@ const contactsSlice = createSlice({
 
 
 
-export const selectContacts = (state) => state.contacts.ithems;
+export const selectContacts = (state) => state.contacts.contacts.items;
+export const selectIsLoading = (state) => state.contacts.contacts.loading;
+export const selectError = (state) => state.contacts.contacts.error;
+export const selectFilteredContacts = createSelector(
+  [selectContacts, selectNameFilter], 
+  (contacts, nameFilter) => { 
+      return contacts.filter(contact => contact.name.toLowerCase().includes(nameFilter.toLowerCase()));
+  }
+)
 export const contactsReducer = contactsSlice.reducer;

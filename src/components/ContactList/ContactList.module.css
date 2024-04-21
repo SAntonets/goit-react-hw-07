@@ -5,3 +5,7 @@
   gap: 8px;
   list-style: none;
 }
+
+.contactList li {
+  width: calc((100% - (16px * 5)) / 6);
+}
